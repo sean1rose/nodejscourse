@@ -1,11 +1,9 @@
-var person = {
-  firstname: 'John',
-  lastname: 'Doe',
-  greet: function(){
-    console.log(`Hello, ${this.firstname} ${this.lastname}`);
-  }
-};
+// function expression, that's immediately invoked
+(function(lastname) {
+  var firstname = "John";
+  console.log(firstname);
+  console.log(lastname)
+}('Doe'));
 
-// person.greet();
-
-console.log(person['firstname']);
+var firstname = 'Jane';
+console.log(firstname);
