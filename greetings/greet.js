@@ -1,6 +1,6 @@
-var greet = () => {
-  console.log('Hello!');
-};
+exports = function() {
+  console.log('Hello foo');
+}
 
-// makes greet available for use outside of this file
-module.exports = greet;
+console.log(exports);
+console.log(module.exports);
