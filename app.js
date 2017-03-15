@@ -1,28 +1,23 @@
-// object properties and methods
-var obj = {
-  greet: 'Hello'
-}
+// event emmitter
+var Emitter = require('./emitter');
 
-console.log(obj.greet);
-console.log(obj['greet']);
-// have a variable set to a string and then use that variable in brackets to get a particular value 
-var prop = 'greet';
-console.log(obj[prop]);
+var emtr = new Emitter();
+console.log('emtr - ', emtr);
 
-var arr = [];
+// Will run whenever 'greet' event is emitted:
 
-arr.push(function() {
-  console.log('Hello world 1');
+// THese listeners are just functions sitting in an array
+
+// 'greet' is the prop name on the obj, that will hold all of the events
+emtr.on('greet', function() {
+  console.log('Somewhere, someone said hello.');
 });
 
-arr.push(function() {
-  console.log('Hello world 2');
+emtr.on('greet', function() {
+  console.log('A greeting occurred!');
 });
 
-arr.push(function() {
-  console.log('Hello world 3');
-});
+console.log('Hello!');
 
-arr.forEach(function(item) {
-  item();
-});
+// manually emit the event (loop thru teh array and invoke all of the functions)
+emtr.emit('greet');
