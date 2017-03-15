@@ -1,6 +1,3 @@
-exports = function() {
-  console.log('Hello foo');
+export function greet() {
+  console.log('exported hello foo!');
 }
-
-console.log(exports);
-console.log(module.exports);
