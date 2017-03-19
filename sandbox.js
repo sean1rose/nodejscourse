@@ -1,9 +1,20 @@
-// function expression, that's immediately invoked
-(function(lastname) {
-  var firstname = "John";
-  console.log(firstname);
-  console.log(lastname)
-}('Doe'));
+var util = require('util');
 
-var firstname = 'Jane';
-console.log(firstname);
+function Person() {
+  this.firstname = 'John';
+  this.lastname = 'Doe';
+}
+
+Person.prototype.greet = function(){
+  console.log('Hello ' + this.firstname + ' ' + this.lastname);
+}
+
+function Policeman() {
+  // when create new policeman, this points to empty object, call Person
+  Person.call(this);
+  this.badgenumber = '1234';
+}
+
+util.inherits(Policeman, Person);
+var officer = new Policeman();
+officer.greet();
