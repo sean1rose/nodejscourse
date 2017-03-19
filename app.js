@@ -1,25 +1,23 @@
-// event emmitter
-var Emitter = require('events');
+var EventEmitter = require('events');
+var util = require('util');
 
-// try to avoid using magic strings by assigning the string to a variable
-var eventConfig = require('./config').events;
+function Greetr() {
+  this.greeting = 'Hello world!';
+}
 
-var emtr = new Emitter();
+// Greetr INHERITS all the EventEmitter methods/props, including 'emit' and 'on'
+util.inherits(Greetr, EventEmitter);
 
-// Will run whenever 'greet' event is emitted:
+Greetr.prototype.greet = function(data) {
+  console.log(this.greeting + ': ' + data);
+  this.emit('greet', data);
+}
 
-// These listeners are just functions sitting in an array
+var greeter1 = new Greetr();
+// has access to greeter and event EventEmitter
 
-// 'greet' is the prop name on the obj, that will hold all of the events
-emtr.on(eventConfig.GREET, function() {
-  console.log('Somewhere, someone said hello.');
+greeter1.on('greet', function(data) {
+  console.log('Someone greeted! - ' + data);
 });
 
-emtr.on(eventConfig.GREET, function() {
-  console.log('A greeting occurred!');
-});
-
-console.log('Hello!');
-
-// manually emit the event (loop thru teh array and invoke all of the functions)
-emtr.emit(eventConfig.GREET);
+greeter1.greet('Sean');
