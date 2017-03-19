@@ -1,30 +1,26 @@
 'use strict';
 
-// class -> essentially functional prototypal inheritance
-class Person {
-  constructor(firstname, lastname){
-    this.firstname = firstname;
-    this.lastname = lastname;
+var EventEmitter = require('events');
+
+
+// (same as using util.inherit)
+class Greetr extends EventEmitter {
+  constructor() {
+    // calls parent 
+    super();
+    this.greeting = 'Hello world!';
   }
 
-  greet() {
-    console.log('Hello, ' + this.firstname + ' ' + this.lastname);
+  greet(data) {
+    console.log(this.greeting + ': ' + data);
+    this.emit('greet', data);
   }
-};
-
-var john = new Person('John', 'Doe');
-john.greet();
-
-// works all the same...
-
-// functional prototype (prototypal inheritance)
-/*
-function Person(firstname, lastname){
-  this.firstname = firstname;
-  this.lastname = lastname;
 }
 
-Person.prototype.greet = function() {
-  console.log('Hello, ' + this.firstname + ' ' + this.lastname);
-}
-*/
+var greeter1 = new Greetr();
+
+greeter1.on('greet', function(data) {
+  console.log('Someone greeted! - ', data);
+});
+
+greeter1.greet('Sean');
