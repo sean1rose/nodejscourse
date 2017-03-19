@@ -1,23 +1,14 @@
-var EventEmitter = require('events');
-var util = require('util');
-
-function Greetr() {
-  this.greeting = 'Hello world!';
+// call and apply
+var obj = {
+  name: 'John Doe',
+  greet: function(param) {
+    console.log(`Hello ${ this.name }`);
+  }
 }
 
-// Greetr INHERITS all the EventEmitter methods/props, including 'emit' and 'on'
-util.inherits(Greetr, EventEmitter);
+obj.greet();
 
-Greetr.prototype.greet = function(data) {
-  console.log(this.greeting + ': ' + data);
-  this.emit('greet', data);
-}
+// call -> pass in obj that 'this' will refer to
+obj.greet.call({name: 'Jane Doe'});
 
-var greeter1 = new Greetr();
-// has access to greeter and event EventEmitter
-
-greeter1.on('greet', function(data) {
-  console.log('Someone greeted! - ' + data);
-});
-
-greeter1.greet('Sean');
+obj.greet.apply({name: 'Jane Doe'}, [param1, param2]);
