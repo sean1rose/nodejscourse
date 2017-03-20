@@ -1,26 +1,11 @@
-'use strict';
+// buffers
 
-var EventEmitter = require('events');
+// convert string to binary data using utf8 encoding
+var buf = new Buffer('Hello', 'utf8');
+console.log(buf);
+console.log(buf.toString());
+console.log(buf.toJSON());
+console.log(buf[2]);
 
-
-// (same as using util.inherit)
-class Greetr extends EventEmitter {
-  constructor() {
-    // calls parent 
-    super();
-    this.greeting = 'Hello world!';
-  }
-
-  greet(data) {
-    console.log(this.greeting + ': ' + data);
-    this.emit('greet', data);
-  }
-}
-
-var greeter1 = new Greetr();
-
-greeter1.on('greet', function(data) {
-  console.log('Someone greeted! - ', data);
-});
-
-greeter1.greet('Sean');
+buf.write('wo');
+console.log(buf.toString());
