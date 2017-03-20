@@ -1,11 +1,11 @@
-// buffers
+// typed arrays
 
-// convert string to binary data using utf8 encoding
-var buf = new Buffer('Hello', 'utf8');
-console.log(buf);
-console.log(buf.toString());
-console.log(buf.toJSON());
-console.log(buf[2]);
+// byte = 8 bits
+  // storing raw binary data
+var buffer = new ArrayBuffer(8);
 
-buf.write('wo');
-console.log(buf.toString());
+// typed array; way to deal w/ binary data in buffer
+var view = new Int32Array(buffer);
+view[0] = 5;
+view[1] = 15;
+console.log(view);
