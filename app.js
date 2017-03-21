@@ -1,11 +1,18 @@
-// typed arrays
+function greet(callback) {
+  console.log('hello');
+  var data = {
+    name: 'Sean Rose'
+  }
+  callback(data);
+}
 
-// byte = 8 bits
-  // storing raw binary data
-var buffer = new ArrayBuffer(8);
+greet(function(data){
+  console.log('2nd message callback invoked!');
+  console.log(data);
+});
 
-// typed array; way to deal w/ binary data in buffer
-var view = new Int32Array(buffer);
-view[0] = 5;
-view[1] = 15;
-console.log(view);
+greet(function(data) {
+  console.log('3rd 3rd - ', data.name);
+});
+
+// the function that i invoke will invoke later the function that i give it
