@@ -1,37 +1,20 @@
-// https://www.udemy.com/understand-nodejs/learn/v4/t/lecture/3632900?start=0
-// ROUTING - mapping HTTP requests to content
-  // when you request a file/resource on the internet -> you're not directly connecting to the server, but to the server asking "Give me this"
-  // Server may do various things to provide that content:
-    // may pull that content off the server
-    // may be getting that data from a database
-    // may be building HTML on the fly
+var express = require('express');
 
-// want to respond to different URLS
+// working express app -> this is a function w/ methods on it...
+var app = express();
 
-var http = require('http');
-var fs = require('fs');
+// port is either equal to environment variable (have a PORT variable on the server) or default to 3000
+var port = process.env.PORT || 3000;
 
-http.createServer(function(req, res) {
+// respond to a GET HTTP request at root url
+app.get('/', function(req, res) {
+  // express automatically adds content-type to header
+  res.send('<html><head></head><body><h1>Hello world!</h1></body></html>');
+});
 
-  // if root URL -> return contents of index.html file
-  if (req.url === '/'){
-    fs.createReadStream(__dirname + '/index.html').pipe(res);
-  }
+app.get('/api', function(req, res) {
+  res.json({ firstname: 'John', lastname: 'Doe' });
+});
 
-  // if '/api' route -> return json...
-  else if (req.url === '/api'){
-    // tell requester that response will be json
-    res.writeHead(200, { 'Content-Type': 'application/json'});  
-    var obj = {
-      firstname: 'John',
-      lastname: 'Doe'
-    };
-    res.end(JSON.stringify(obj));
-  }
-
-  else {
-    res.writeHead(404);
-    res.end();
-  }
-
-}).listen(1337, '127.0.0.1');
+// create http server
+app.listen(port);
