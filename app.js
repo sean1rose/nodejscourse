@@ -1,25 +1,28 @@
-// https://www.udemy.com/understand-nodejs/learn/v4/t/lecture/3632890?start=0
-// Outputting HTML and templates from our node server
-// GOAL: want to deliver contents of index.html as response...
-
+// https://www.udemy.com/understand-nodejs/learn/v4/t/lecture/3632894?start=0
+// Streams and Performance...
+// using a stream (createReadStream) to send data A CHUNK AT A TIME
 
 var http = require('http');
 var fs = require('fs');
 
+// create a new server obj + callback event listener (HTTP req, HTTP res params)
 http.createServer(function(req, res) {
+  // CB executed when a request to server is made...
   
+  // have a response stream, write to it...
   res.writeHead(200, { 'Content-Type': 'text/html'});
   
-  // Pull contents from file: get full path to html file on the file sys, read it, and hold in variable
-    // readFileSync gives back a buffer
-  var html = fs.readFileSync(__dirname + '/index.html', 'utf8');
-  // ^ html is a string at this point
-  var message = 'Yo world...';
-  // replace the template w/ our string 'yo' msg
-  html = html.replace('{Message}', message);
+  // synchronous call - everytime someone makes a request, the JS will stop and fill buffer w/ full contents of file then send back
+    // probs w/ memory if a ton of people hit the api at same time
+  // var html = fs.readFileSync(__dirname + '/index.html');
+  
+  // use CREATEREADSTREAM to solve this prob
+    // stream -> dealing w/ data, a chunk at a time
+    // we have response obj-arg -> which is a writable stream available to us
+  fs.createReadStream(__dirname + '/index.html').pipe(res);
+  // connect readable file stream and pipe it to our response stream
+    // every chunk of data will be buffered and piped out to response
+    // ***(rather than pulling the entire file into a buffer then sending it), send it a CHUNK AT A TIME
 
-  // ^ Dynamic templating -> sub in the template w/ a string...
-
-  res.end(html);
 
 }).listen(1337, '127.0.0.1');
