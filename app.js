@@ -1,26 +1,25 @@
-// https://www.udemy.com/understand-nodejs/learn/v4/t/lecture/3632888?start=0
-// building a web server in node - can make a request from browser and give a response back
+// https://www.udemy.com/understand-nodejs/learn/v4/t/lecture/3632890?start=0
+// Outputting HTML and templates from our node server
+// GOAL: want to deliver contents of index.html as response...
+
 
 var http = require('http');
+var fs = require('fs');
 
-// create a new server obj + callback event listener (HTTP req, HTTP res params)
 http.createServer(function(req, res) {
-  // CB executed when a request to server is made...
   
-  // BUILD A RESPONSE HERE (using response arg, which has methods that allow u to send info back down the stream [status, headers, etc])
-    // info that the browser will use and understand
-    // ***res obj is a writable stream
+  res.writeHead(200, { 'Content-Type': 'text/html'});
+  
+  // Pull contents from file: get full path to html file on the file sys, read it, and hold in variable
+    // readFileSync gives back a buffer
+  var html = fs.readFileSync(__dirname + '/index.html', 'utf8');
+  // ^ html is a string at this point
+  var message = 'Yo world...';
+  // replace the template w/ our string 'yo' msg
+  html = html.replace('{Message}', message);
 
-  // 1. start w/ the head (statuscode + headers)
-    // giving back plain text 
-  res.writeHead(200, { 'Content-Type': 'text/plain'})
+  // ^ Dynamic templating -> sub in the template w/ a string...
 
-  // 2. send back the body
-    // end -> i'm done, here's the last thing
-  res.end('Hello World\n');
+  res.end(html);
 
 }).listen(1337, '127.0.0.1');
-// ^^^ need to set up port to listen at (+ internal IP address of local host)
-  // ***LISTEN makes sure that request from browser is routed properly
-
-// when browser makes this request, this http-parser process will receive that request and provide response...
