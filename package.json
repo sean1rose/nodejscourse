@@ -18,6 +18,7 @@
   "homepage": "https://github.com/sean1rose/nodejscourse#readme",
   "devDependencies": {},
   "dependencies": {
+    "ejs": "^2.5.6",
     "express": "^4.15.2"
   }
 }
